@@ -4,6 +4,7 @@ import uuid
 import os
 from config import AWS_REGION, AWS_ACCESS_KEY, AWS_SECRET_KEY, AWS_S3_INPUT_BUCKET, AWS_S3_OUTPUT_BUCKET
 
+
 app = Flask(__name__)
 s3_client = boto3.client('s3', 
     aws_access_key_id=AWS_ACCESS_KEY, 
@@ -13,9 +14,11 @@ s3_client = boto3.client('s3',
     config=boto3.session.Config(s3={'addressing_style': 'virtual'})
 )
 
+
 @app.route('/')
 def home():
     return render_template('index.html')
+
 
 @app.route('/upload', methods=['POST'])
 def upload_image():
@@ -37,6 +40,7 @@ def upload_image():
     
     return jsonify({'error': 'Invalid file type'}), 400
 
+
 @app.route('/get_resized/<request_id>', methods=['GET'])
 def get_resized_image(request_id):
     response = s3_client.list_objects_v2(Bucket=AWS_S3_OUTPUT_BUCKET, Prefix=f"{request_id}/")
@@ -49,7 +53,7 @@ def get_resized_image(request_id):
                                                          ExpiresIn=3600)
         return jsonify({'presigned_url': presigned_url}), 200
     
-    return jsonify({'message': 'Image is being resized, please try after 30 seconds'}), 202
+    return jsonify({'message': 'Image is being resized, please try after 10 seconds'}), 202
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'jpg', 'jpeg', 'png'}

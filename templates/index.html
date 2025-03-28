@@ -66,9 +66,20 @@
                     data: formData,
                     contentType: false,
                     processData: false,
-                    success: function (data) {
-                        $('#uploadResponse').text('Request ID: ' + data.request_id);
-                        $('#requestId').val(data.request_id)
+                    // success: function (data) {
+                    //     $('#uploadResponse').text('Request ID: ' + data.request_id);
+                    //     $('#requestId').val(data.request_id)
+                    // },
+                    statusCode: {
+                        400: function(data) {
+                            console.log(data);
+                            $('#uploadResponse').text(data.responseJSON.error);
+                        },
+                        200: function (data) {
+                            console.log(data);
+                            $('#uploadResponse').text('Request ID: ' + data.request_id);
+                            $('#requestId').val(data.request_id)
+                        },
                     }
                 });
             });
