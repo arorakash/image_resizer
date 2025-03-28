@@ -12,7 +12,7 @@ The app will start on local host at port 5000
 
 Goto http://127.0.0.1:5000/
 
-[<img src="index.jpg">]()
+![](index.jpg)
 
 Click the Browse button to select an image file. Click on Upload button once the file is selected.
 
